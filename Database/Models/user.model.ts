@@ -32,7 +32,7 @@ const userSchema: mongoose.Schema = new mongoose.Schema(
 		},
 		age: {
 			type: Number,
-			required: [true, "User age is required!"],
+			required: true,
 		},
 		isActive: {
 			type: Boolean,
