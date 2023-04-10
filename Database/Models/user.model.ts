@@ -5,19 +5,24 @@ const userSchema: mongoose.Schema = new mongoose.Schema(
 		name: {
 			type: String,
 			trim: true,
-			required: [true, "User name is required!"],
-			minLength: [2, "User name is too short!"],
+			required: true,
+			minLength: 2,
 		},
 		email: {
 			type: String,
-			required: [true, "User email is required!"],
-			unique: [true, "User email must be unique!"],
-			minLength: [2, "User email is too short!"],
+			trim: true,
+			required: true,
+			unique: true,
+			minLength: 2,
 		},
 		password: {
 			type: String,
 			required: true,
-			minLength: [8, "User password is too short, min length 8 chars!"],
+			minLength: 8,
+		},
+		phone: {
+			type: String,
+			required: true,
 		},
 		role: {
 			type: String,
@@ -46,6 +51,6 @@ const userSchema: mongoose.Schema = new mongoose.Schema(
 	}
 );
 
-const userModel = mongoose.model("user", userSchema);
+const userModel = mongoose.model("User", userSchema);
 
 export default userModel;
