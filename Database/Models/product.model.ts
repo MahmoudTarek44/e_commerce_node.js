@@ -54,9 +54,7 @@ const productSchema: mongoose.Schema = new mongoose.Schema(
 		cover_img: {
 			type: String,
 		},
-		random_imgs: [
-            { type: String }
-        ],
+		random_imgs: [{ type: String }],
 		category: {
 			type: mongoose.Types.ObjectId,
 			ref: "Category",
@@ -71,6 +69,9 @@ const productSchema: mongoose.Schema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
-const productModel = mongoose.model("Product", productSchema);
+const productModel: mongoose.Model<any> = mongoose.model(
+	"Product",
+	productSchema
+);
 
 export default productModel;

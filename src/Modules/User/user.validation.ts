@@ -7,8 +7,22 @@ const signUpSchema = Joi.object({
 		.pattern(/^[a-zA-Z0-9]{8,30}$/)
 		.required(),
 	confirm_password: Joi.ref("password"),
+	phone: Joi.string().required(),
 	age: Joi.number().required(),
+});
+
+const updateInfoSchema = Joi.object({
+	name: Joi.string().min(3).max(80),
+	email: Joi.string().email(),
 	phone: Joi.string(),
+	age: Joi.number(),
+});
+
+const updatePassSchema = Joi.object({
+	password: Joi.string()
+		.pattern(/^[a-zA-Z0-9]{8,30}$/)
+		.required(),
+	confirm_password: Joi.ref("password"),
 });
 
 const signInSchema = Joi.object({
@@ -18,4 +32,4 @@ const signInSchema = Joi.object({
 		.required(),
 });
 
-export { signUpSchema, signInSchema };
+export { signUpSchema, signInSchema, updateInfoSchema, updatePassSchema };

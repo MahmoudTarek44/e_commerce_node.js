@@ -16,11 +16,12 @@ const app: Express = express();
 // Middlewares
 app.use(express.json());
 app.use(express.static("Uploads")); 
-app.use(morgan("combined"));
+app.use(morgan("dev"));
 
 app.use("/api/v1", appRouter);
 app.all("*", (request: Request, response: Response, next: NextFunction) =>
 	next(new AppError(`This route is not found: ${request.originalUrl}`, 404)));
+	
 app.use(globalError);
 
 // Init server && server errors

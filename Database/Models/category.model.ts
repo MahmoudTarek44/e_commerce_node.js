@@ -21,6 +21,9 @@ const categorySchema: mongoose.Schema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
-const categoryModel = mongoose.model("Category", categorySchema);
+const categoryModel: mongoose.Model<any> = mongoose.model(
+	"Category",
+	categorySchema
+);
 
 export default categoryModel;

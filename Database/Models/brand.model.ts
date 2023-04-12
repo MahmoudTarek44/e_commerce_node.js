@@ -17,10 +17,18 @@ const brandSchema: mongoose.Schema = new mongoose.Schema(
 		logo: {
 			type: String,
 		},
+		category: {
+			type: mongoose.Types.ObjectId,
+			ref: "Category",
+		},
+		subCategory: {
+			type: mongoose.Types.ObjectId,
+			ref: "SubCategory",
+		},
 	},
 	{ timestamps: true }
 );
 
-const brandModel = mongoose.model("Brand", brandSchema);
+const brandModel: mongoose.Model<any> = mongoose.model("Brand", brandSchema);
 
 export default brandModel;

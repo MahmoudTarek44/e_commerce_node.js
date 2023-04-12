@@ -14,11 +14,11 @@ class userDatabaseModel {
 		const { name, email, password, age } = user;
 		const hash = bcrypt.hashSync( password + BCRYPT_PASSWORD, parseInt(SALT_ROUNDS as string, 10));
         const created = await userModel.create({ name, email, password: hash, age, profile_picture })
-		    .catch((error)=> { return next(new AppError(error.message, 400, error))})
+            .catch((error)=> { return next(new AppError(error.message, 400, error))})
         return created;
 	}
 
-    async update(user: User, user_id: ObjectId, next: NextFunction) {
+    async update(user: User, user_id: ObjectId | string, next: NextFunction) {
         const update = {
             name: user.name,
             email: user.email,
