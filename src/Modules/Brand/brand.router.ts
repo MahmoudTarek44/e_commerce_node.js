@@ -1,4 +1,4 @@
-import { getAuthHeader } from "../../Middlewares/authentication.middleware";
+import checkAuthentication  from "../../Middlewares/authentication.middleware";
 import validation from "../../Middlewares/validation.middleware";
 import { brandSchema, updateSchema } from "./brand.validation";
 import fileUpload from "../../Utilities/file_uploader";
@@ -9,7 +9,7 @@ const brandRouter = express.Router();
 
 brandRouter
 	.route("/")
-	.get(getAuthHeader, Brand.getAllBrands)
+	.get(checkAuthentication, Brand.getAllBrands)
 	.post(
 		fileUpload("logo", "Brand"),
 		validation(brandSchema, "body"),
@@ -17,10 +17,10 @@ brandRouter
 	);
 brandRouter
 	.route("/:id")
-	.delete(getAuthHeader, Brand.deleteBrand)
-	.get(getAuthHeader, Brand.getOneBrand)
+	.delete(checkAuthentication, Brand.deleteBrand)
+	.get(checkAuthentication, Brand.getOneBrand)
 	.put(
-		getAuthHeader,
+		checkAuthentication,
 		fileUpload("logo", "Brand"),
 		validation(updateSchema, "body"),
 		Brand.updateBrand

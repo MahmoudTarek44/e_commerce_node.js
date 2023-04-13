@@ -45,6 +45,14 @@ const userSchema: mongoose.Schema = new mongoose.Schema(
 		profile_picture: {
 			type: String,
 		},
+		changePassTime: {
+			type: Date,
+			default: 0,
+		},
+		logOutTime: {
+			type: Date,
+			default: 0,
+		},
 	},
 	{
 		timestamps: true,

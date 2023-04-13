@@ -1,4 +1,4 @@
-import { getAuthHeader } from "../../Middlewares/authentication.middleware";
+import checkAuthentication from "../../Middlewares/authentication.middleware";
 import { subCategorySchema, updateSchema } from "./subcategory.validation";
 import validation from "../../Middlewares/validation.middleware";
 import * as Subcategory from './subcategory.controller'
@@ -9,19 +9,18 @@ const subCategoryRouter = express.Router();
 
 subCategoryRouter
 	.route("/")
-	.get(getAuthHeader, Subcategory.getAllSubcategories)
+	.get(checkAuthentication, Subcategory.getAllSubcategories)
 	.post(
 		fileUpload("image", "Subcategory"),
 		validation(subCategorySchema, "body"),
 		Subcategory.createSubCategory
 	);
-
 subCategoryRouter
 	.route("/:id")
-	.delete(getAuthHeader, Subcategory.deleteSubcategory)
-	.get(getAuthHeader, Subcategory.getOneSubcategory)
+	.delete(checkAuthentication, Subcategory.deleteSubcategory)
+	.get(checkAuthentication, Subcategory.getOneSubcategory)
 	.put(
-		getAuthHeader,
+		checkAuthentication,
 		fileUpload("image", "Subcategory"),
 		validation(updateSchema, "body"),
 		Subcategory.updateSubcategory

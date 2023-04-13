@@ -21,7 +21,6 @@ app.use(morgan("dev"));
 app.use("/api/v1", appRouter);
 app.all("*", (request: Request, response: Response, next: NextFunction) =>
 	next(new AppError(`This route is not found: ${request.originalUrl}`, 404)));
-	
 app.use(globalError);
 
 // Init server && server errors

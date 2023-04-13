@@ -1,4 +1,4 @@
-import { getAuthHeader } from "../../Middlewares/authentication.middleware";
+import checkAuthentication from "../../Middlewares/authentication.middleware";
 import { categorySchema, updateSchema } from "./category.validation";
 import validation from "../../Middlewares/validation.middleware";
 import fileUpload from "../../Utilities/file_uploader";
@@ -9,7 +9,7 @@ const categoryRouter = express.Router();
 
 categoryRouter
 	.route("/")
-	.get(getAuthHeader, Category.getAllCategories)
+	.get(checkAuthentication, Category.getAllCategories)
 	.post(
 		fileUpload("image", "Category"),
 		validation(categorySchema, "body"),
@@ -17,10 +17,10 @@ categoryRouter
 	);
 categoryRouter
 	.route("/:id")
-	.delete(getAuthHeader, Category.deleteCategory)
-	.get(getAuthHeader, Category.getOneCategory)
+	.delete(checkAuthentication, Category.deleteCategory)
+	.get(checkAuthentication, Category.getOneCategory)
 	.put(
-		getAuthHeader,
+		checkAuthentication,
 		fileUpload("image", "Category"),
 		validation(updateSchema, "body"),
 		Category.updateCategory

@@ -1,4 +1,4 @@
-import { getAuthHeader } from "../../Middlewares/authentication.middleware";
+import checkAuthentication from "../../Middlewares/authentication.middleware";
 import validation from "../../Middlewares/validation.middleware";
 import fileUpload from "../../Utilities/file_uploader";
 import { couponSchema } from "./coupon.validation";
@@ -9,7 +9,7 @@ const couponRouter = express.Router();
 
 couponRouter
 	.route("/")
-	.get(getAuthHeader, Coupon.getAllCoupons)
+	.get(checkAuthentication, Coupon.getAllCoupons)
 	.post(
 		fileUpload("image", "Category"),
 		validation(couponSchema, "body"),
@@ -17,6 +17,6 @@ couponRouter
 	);
 couponRouter
 	.route("/:id")
-	.get(getAuthHeader, Coupon.getOneCoupon)
+	.get(checkAuthentication, Coupon.getOneCoupon)
 	
 export default couponRouter;
