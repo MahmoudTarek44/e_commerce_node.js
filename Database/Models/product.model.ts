@@ -54,7 +54,7 @@ const productSchema: mongoose.Schema = new mongoose.Schema(
 		cover_img: {
 			type: String,
 		},
-		random_imgs: [{ type: String }],
+		prod_imgs: [{ type: String }],
 		category: {
 			type: mongoose.Types.ObjectId,
 			ref: "Category",
@@ -63,6 +63,11 @@ const productSchema: mongoose.Schema = new mongoose.Schema(
 		subCategory: {
 			type: mongoose.Types.ObjectId,
 			ref: "SubCategory",
+			required: true,
+		},
+		brand: {
+			type: mongoose.Types.ObjectId,
+			ref: "Brand",
 			required: true,
 		},
 	},

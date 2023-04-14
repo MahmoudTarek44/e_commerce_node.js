@@ -14,7 +14,7 @@ import {
 } from "../../Utilities/token_generator";
 
 const VERIFY_SECRET = `${process.env.JWT_VERIFY_SECRET}`;
-const { BCRYPT_PASSWORD  } = process.env;
+const { BCRYPT_PASSWORD } = process.env;
 const userDataModel = new userDatabaseModel();
 
 const registerUser = asyncErrorHandler(
