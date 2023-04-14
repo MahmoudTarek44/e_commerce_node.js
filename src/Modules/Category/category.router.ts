@@ -1,16 +1,20 @@
 import checkAuthentication from "../../Middlewares/authentication.middleware";
 import { categorySchema, updateSchema } from "./category.validation";
+import subCategoryRouter from "../SubCategory/subcategory.router";
 import validation from "../../Middlewares/validation.middleware";
+import { paramsSchema } from "../../Utilities/global_validation";
 import fileUpload from "../../Utilities/file_uploader";
 import * as Category from "./category.controller";
 import express from "express";
 
 const categoryRouter = express.Router();
 
+categoryRouter.use("/:id/subcategories", subCategoryRouter);
 categoryRouter
 	.route("/")
 	.get(checkAuthentication, Category.getAllCategories)
 	.post(
+		checkAuthentication,
 		fileUpload("image", "Category"),
 		validation(categorySchema, "body"),
 		Category.createCategory
@@ -22,6 +26,7 @@ categoryRouter
 	.put(
 		checkAuthentication,
 		fileUpload("image", "Category"),
+		validation(paramsSchema, "params"),
 		validation(updateSchema, "body"),
 		Category.updateCategory
 	);

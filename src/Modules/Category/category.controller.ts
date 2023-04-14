@@ -38,11 +38,15 @@ const updateCategory = asyncErrorHandler(
 	async (request: Request, response: Response, next: NextFunction) => {
 		const { id } = request.params;
 		const { name } = request.body;
-		let result = await categoryModel.findByIdAndUpdate(id, {
-			name,
-			slug: slugify(name, "-"),
-			image: request.file?.filename,
-		});
+		let result = await categoryModel.findByIdAndUpdate(
+			id,
+			{
+				name,
+				slug: slugify(name, "-"),
+				image: request.file?.filename,
+			},
+			{ new: true }
+		);
 		response.status(200).send({ message: "success", data: result });
 	}
 );

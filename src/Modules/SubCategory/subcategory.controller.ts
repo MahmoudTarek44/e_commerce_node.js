@@ -22,7 +22,9 @@ const createSubCategory = asyncErrorHandler(
 
 const getAllSubcategories = asyncErrorHandler(
 	async (request: Request, response: Response, next: NextFunction) => {
-		let result = await subCategoryModel.find({});
+		let result = await subCategoryModel.find(
+			request.params.id ? { category: request.params.id } : {}
+		);
 		response.status(200).send({ message: "success", data: result });
 	}
 );
@@ -39,11 +41,15 @@ const updateSubcategory = asyncErrorHandler(
 	async (request: Request, response: Response, next: NextFunction) => {
 		const { id } = request.params;
 		const { name, category_id } = request.body;
-		let result = await subCategoryModel.findByIdAndUpdate(id, {
-			name,
-			slug: slugify(name, "-"),
-			category: category_id,
-		});
+		let result = await subCategoryModel.findByIdAndUpdate(
+			id,
+			{
+				name,
+				slug: slugify(name, "-"),
+				category: category_id,
+			},
+			{ new: true }
+		);
 		response.status(200).send({ message: "success", data: result });
 	}
 );

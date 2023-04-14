@@ -1,12 +1,15 @@
-import checkAuthentication  from "../../Middlewares/authentication.middleware";
+import checkAuthentication from "../../Middlewares/authentication.middleware";
+import { paramsSchema } from "../../Utilities/global_validation";
 import validation from "../../Middlewares/validation.middleware";
 import { brandSchema, updateSchema } from "./brand.validation";
 import fileUpload from "../../Utilities/file_uploader";
+import productRouter from "../Product/product.router";
 import * as Brand from "./brand.controller";
 import express from "express";
 
 const brandRouter = express.Router();
 
+brandRouter.use("/:id/products", productRouter);
 brandRouter
 	.route("/")
 	.get(checkAuthentication, Brand.getAllBrands)
@@ -22,6 +25,7 @@ brandRouter
 	.put(
 		checkAuthentication,
 		fileUpload("logo", "Brand"),
+		validation(paramsSchema, "params"),
 		validation(updateSchema, "body"),
 		Brand.updateBrand
 	);

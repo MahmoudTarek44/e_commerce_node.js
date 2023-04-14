@@ -11,7 +11,7 @@ const checkAuthentication = asyncErrorHandler(
 		request: Request,
 		response: Response,
 		next: NextFunction
-	): Promise<void | boolean> => {
+	): Promise<AppError | void> => {
 		if (!request.headers.authorization)
 			return next(new AppError("Authorization token is missing", 401));
 
@@ -20,7 +20,7 @@ const checkAuthentication = asyncErrorHandler(
 
 		if (!user)
 			return next(
-				new AppError("Invalid token is used, User is not found", 401)
+				new AppError("Invalid token is used, User is not found", 409)
 			);
 		if (decoded.iat && user.changePassTime > decoded.iat)
 			return next(
@@ -36,4 +36,4 @@ const checkAuthentication = asyncErrorHandler(
 	}
 );
 
-export default checkAuthentication
+export default checkAuthentication;

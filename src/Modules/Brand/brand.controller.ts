@@ -8,13 +8,11 @@ import brandModel from "../../../Database/Models/brand.model";
 
 const createBrand = asyncErrorHandler(
 	async (request: Request, response: Response, next: NextFunction) => {
-		const { name, category_id, subCategory_id } = request.body;
+		const { name } = request.body;
 		let result = new brandModel({
 			name,
 			logo: request.file?.filename,
 			slug: slugify(name, "-"),
-			category: category_id,
-			subCategory: subCategory_id,
 		});
 		await result.save();
 		response.status(200).send({ message: "success", data: result });
@@ -40,10 +38,14 @@ const updateBrand = asyncErrorHandler(
 	async (request: Request, response: Response, next: NextFunction) => {
 		const { id } = request.params;
 		const { name } = request.body;
-		let result = await brandModel.findByIdAndUpdate(id, {
-			name,
-			slug: slugify(name, "-"),
-		});
+		let result = await brandModel.findByIdAndUpdate(
+			id,
+			{
+				name,
+				slug: slugify(name, "-"),
+			},
+			{ new: true }
+		);
 		response.status(200).send({ message: "success", data: result });
 	}
 );
