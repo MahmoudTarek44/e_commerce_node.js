@@ -8,9 +8,12 @@ import { asyncErrorHandler } from "../../Utilities/error_handler";
 
 const createProduct = asyncErrorHandler(
 	async (request: Request, response: Response, next: NextFunction) => {
-		request.body.slug = slugify(request.body.name);
-		request.body.cover_img = request.file?.filename;
-		// request.body.prod_imgs = request.files?.map()
+		if(request.files){
+			let files = request.files as { [fieldname: string]: Express.Multer.File[] }
+			request.body.prod_imgs = files.prod_imgs.map((image: Express.Multer.File) => image.filename);
+			request.body.cover_img = files.cover_img[0].filename;
+		}
+		request.body.slug = slugify(request.body.name,'-');
 		let result = new productModel(request.body);
 		await result.save();
 		response.status(200).send({ message: "success", data: result });

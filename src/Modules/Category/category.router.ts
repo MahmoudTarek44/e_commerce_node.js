@@ -3,7 +3,7 @@ import { categorySchema, updateSchema } from "./category.validation";
 import subCategoryRouter from "../SubCategory/subcategory.router";
 import validation from "../../Middlewares/validation.middleware";
 import { paramsSchema } from "../../Utilities/global_validation";
-import fileUpload from "../../Utilities/file_uploader";
+import { uploadSingle } from "../../Utilities/file_uploader";
 import * as Category from "./category.controller";
 import express from "express";
 
@@ -15,7 +15,7 @@ categoryRouter
 	.get(checkAuthentication, Category.getAllCategories)
 	.post(
 		checkAuthentication,
-		fileUpload("image", "Category"),
+		uploadSingle("image", "Category"),
 		validation(categorySchema, "body"),
 		Category.createCategory
 	);
@@ -25,7 +25,7 @@ categoryRouter
 	.get(checkAuthentication, Category.getOneCategory)
 	.put(
 		checkAuthentication,
-		fileUpload("image", "Category"),
+		uploadSingle("image", "Category"),
 		validation(paramsSchema, "params"),
 		validation(updateSchema, "body"),
 		Category.updateCategory

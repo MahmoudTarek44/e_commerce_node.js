@@ -2,7 +2,7 @@ import checkAuthentication from "../../Middlewares/authentication.middleware";
 import { paramsSchema } from "../../Utilities/global_validation";
 import validation from "../../Middlewares/validation.middleware";
 import { brandSchema, updateSchema } from "./brand.validation";
-import fileUpload from "../../Utilities/file_uploader";
+import { uploadSingle } from "../../Utilities/file_uploader";
 import productRouter from "../Product/product.router";
 import * as Brand from "./brand.controller";
 import express from "express";
@@ -14,7 +14,7 @@ brandRouter
 	.route("/")
 	.get(checkAuthentication, Brand.getAllBrands)
 	.post(
-		fileUpload("logo", "Brand"),
+		uploadSingle("logo", "Brand"),
 		validation(brandSchema, "body"),
 		Brand.createBrand
 	);
@@ -24,7 +24,7 @@ brandRouter
 	.get(checkAuthentication, Brand.getOneBrand)
 	.put(
 		checkAuthentication,
-		fileUpload("logo", "Brand"),
+		uploadSingle("logo", "Brand"),
 		validation(paramsSchema, "params"),
 		validation(updateSchema, "body"),
 		Brand.updateBrand

@@ -13,9 +13,9 @@ import {
 	userVerificationToken,
 } from "../../Utilities/token_generator";
 
+const userDataModel = new userDatabaseModel();
 const VERIFY_SECRET = `${process.env.JWT_VERIFY_SECRET}`;
 const { BCRYPT_PASSWORD } = process.env;
-const userDataModel = new userDatabaseModel();
 
 const registerUser = asyncErrorHandler(
 	async (request: Request, response: Response, next: NextFunction) => {
@@ -128,6 +128,21 @@ const deactivateUser = asyncErrorHandler(
 	}
 );
 
+const changeUserPassword = asyncErrorHandler(
+	async (request: Request, response: Response, next: NextFunction) => {
+		const user = await userModel.findByIdAndUpdate(
+			request.params.id,
+			request.body,
+			{ new: true }
+		);
+		!user && next(new AppError("User is not found", 404));
+		response.send({
+			message: "User password successfully changed",
+			user: user,
+		});
+	}
+);
+
 export {
 	registerUser,
 	loginUser,
@@ -138,4 +153,5 @@ export {
 	getOneUser,
 	verifyUser,
 	updateUser,
+	changeUserPassword,
 };
