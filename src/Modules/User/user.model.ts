@@ -9,16 +9,16 @@ class userDatabaseModel {
 		profile_picture: string | undefined,
 		next: NextFunction
 	) {
-		const { name, email, password, age } = user;
+		const { name, email, password, age, phone } = user;
 		const created = new userModel({
 			name,
 			email,
 			password,
 			age,
 			profile_picture,
+			phone,
 		});
-		await created
-			.save()
+		await created.save()
 			.catch((error: Error) => next(new AppError(error.message, 400)));
 		return created;
 	}

@@ -5,7 +5,6 @@ import Joi from "Joi";
 const validation = (schema: Joi.ObjectSchema<any>, request_part: string) => {
 	return (request: Request, response: Response, next: NextFunction) => {
 		const { error } = schema.validate(request[request_part as keyof Object], { abortEarly: false });
-		console.log('Validation for request part: ',request[request_part as keyof Object]);
 		return error
 			? next(new AppError("Input validation error", 400, error.details))
 			: next();

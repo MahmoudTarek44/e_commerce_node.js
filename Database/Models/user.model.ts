@@ -66,7 +66,7 @@ const userSchema: mongoose.Schema = new mongoose.Schema(
 
 userSchema.post("init", (document) => {
 	if (document.profile_picture)
-		document.profile_picture = `${process.env.BASE_URL}user/${document.profile_picture}`;
+		document.profile_picture = `${process.env.BASE_URL}Users/${document.profile_picture}`;
 });
 
 userSchema.pre("save", function () {

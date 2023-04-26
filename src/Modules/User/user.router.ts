@@ -13,7 +13,7 @@ const userRouter = express.Router();
 
 userRouter
 	.route("/")
-	.get(checkAuthentication, User.getAllUsers)
+	.get(User.getAllUsers)
 	.post(
 		uploadSingle("profile_picture", "Users"),
 		validation(signUpSchema, "body"),
@@ -33,6 +33,6 @@ userRouter
 userRouter.post("/login", validation(signInSchema, "body"), User.loginUser);
 userRouter.get("/profile", checkAuthentication, User.getCurrentUser);
 userRouter.patch("/changePassword/:id", User.changeUserPassword);
-userRouter.get("/verify", User.verifyUser);
+userRouter.get("/verify/:token", User.verifyUser);
 
 export default userRouter;

@@ -1,12 +1,13 @@
 import { asyncErrorHandler } from "../Utilities/error_handler";
-import { NextFunction, Request, Response } from "express";
 import userModel from "../../Database/Models/user.model";
 import { AppError } from "../Utilities/error_handler";
+import modifiedRequest from "../Utilities/interfaces";
+import { NextFunction, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 const checkAuthentication = asyncErrorHandler(
 	async (
-		request: Request | any,
+		request: modifiedRequest,
 		response: Response,
 		next: NextFunction
 	): Promise<void> => {

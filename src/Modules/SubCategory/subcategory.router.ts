@@ -3,7 +3,7 @@ import { subCategorySchema, updateSchema } from "./subcategory.validation";
 import validation from "../../Middlewares/validation.middleware";
 import { paramsSchema } from "../../Utilities/global_validation";
 import * as Subcategory from "./subcategory.controller";
-import fileUpload from "../../Utilities/file_uploader";
+import { uploadSingle } from "../../Utilities/file_uploader";
 import express from "express";
 
 const subCategoryRouter = express.Router({ mergeParams: true });
@@ -12,7 +12,7 @@ subCategoryRouter
 	.route("/")
 	.get(checkAuthentication, Subcategory.getAllSubcategories)
 	.post(
-		fileUpload("image", "Subcategory"),
+		uploadSingle("image", "Subcategory"),
 		validation(subCategorySchema, "body"),
 		Subcategory.createSubCategory
 	);
@@ -22,7 +22,7 @@ subCategoryRouter
 	.get(checkAuthentication, Subcategory.getOneSubcategory)
 	.put(
 		checkAuthentication,
-		fileUpload("image", "Subcategory"),
+		uploadSingle("image", "Subcategory"),
 		validation(paramsSchema, "params"),
 		validation(updateSchema, "body"),
 		Subcategory.updateSubcategory

@@ -1,6 +1,6 @@
 import checkAuthentication from "../../Middlewares/authentication.middleware";
 import validation from "../../Middlewares/validation.middleware";
-import fileUpload from "../../Utilities/file_uploader";
+import { uploadSingle } from "../../Utilities/file_uploader";
 import { couponSchema } from "./coupon.validation";
 import * as Coupon from './coupon.controller'
 import express from "express";
@@ -11,7 +11,7 @@ couponRouter
 	.route("/")
 	.get(checkAuthentication, Coupon.getAllCoupons)
 	.post(
-		fileUpload("image", "Category"),
+		uploadSingle("image", "Coupon"),
 		validation(couponSchema, "body"),
 		Coupon.createCoupon
 	);

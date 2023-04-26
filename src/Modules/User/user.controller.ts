@@ -20,7 +20,8 @@ const { BCRYPT_PASSWORD } = process.env;
 const registerUser = asyncErrorHandler(
 	async (request: Request, response: Response, next: NextFunction) => {
 		const { email } = request.body;
-		await userModel.findOne({ email });
+		let user = await userModel.findOne({ email });
+		if (user) return next(new AppError("Email already exists", 400));
 		const newUser = await userDataModel.create(
 			request.body,
 			request.file?.filename,
@@ -121,9 +122,13 @@ const deleteUser = asyncErrorHandler(
 
 const deactivateUser = asyncErrorHandler(
 	async (request: Request, response: Response) => {
-		const user = await userModel.findByIdAndUpdate(request.params.id, {
-			isActive: false,
-		});
+		const user = await userModel.findByIdAndUpdate(
+			request.params.id,
+			{
+				isActive: false,
+			},
+			{ new: true }
+		);
 		response.send({ message: "User successfully deactivated", user: user });
 	}
 );
