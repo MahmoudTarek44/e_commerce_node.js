@@ -1,4 +1,9 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+
+dotenv.config();
+const { BCRYPT_PASSWORD, SALT_ROUNDS } = process.env;
 
 const userSchema: mongoose.Schema = new mongoose.Schema(
 	{
@@ -58,6 +63,21 @@ const userSchema: mongoose.Schema = new mongoose.Schema(
 		timestamps: true,
 	}
 );
+
+userSchema.post("init", (document) => {
+	if (document.profile_picture)
+		document.profile_picture = `${process.env.BASE_URL}user/${document.profile_picture}`;
+});
+
+userSchema.pre("save", function () {
+	this.password = bcrypt.hashSync( this.password + BCRYPT_PASSWORD, parseInt(SALT_ROUNDS as string, 10));
+});
+
+userSchema.pre("findOneAndUpdate", function () {
+	console.log(this);
+	// if(this._update.password)
+	// 	this.update.password = bcrypt.hashSync( this._update.password + BCRYPT_PASSWORD, parseInt(SALT_ROUNDS as string, 10));
+});
 
 const userModel: mongoose.Model<any> = mongoose.model("User", userSchema);
 

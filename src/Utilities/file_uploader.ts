@@ -1,8 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
 import { Request } from "express";
 import multer from "multer";
+import { AppError } from "./error_handler";
 
-const fileUpload = (field: string, path: string) => {
+const options = (path: string) => {
 	const storage = multer.diskStorage({
 		destination: (
 			request: Request,
@@ -19,8 +20,7 @@ const fileUpload = (field: string, path: string) => {
 			callBack(null, `${uuidv4()}_${file.originalname}`);
 		},
 	});
-	const upload = multer({ storage, fileFilter });
-	return upload.single(field);
+	return multer({ storage, fileFilter });
 };
 
 const fileFilter = (
@@ -29,7 +29,18 @@ const fileFilter = (
 	callBack: Function
 ) => {
 	if (file.mimetype.startsWith("image")) callBack(null, true);
-	else callBack(null, false);
+	else callBack( new AppError('The file should be an image type', 400) , false);
 };
 
-export default fileUpload;
+const uploadSingle = (field: string, path: string) => {
+	return options(path).single(field);
+};
+
+const uploadMultiple = (
+	fields: { name: string; maxCount: number }[],
+	path: string
+) => {
+	return options(path).fields(fields);
+};
+
+export { uploadSingle, uploadMultiple };

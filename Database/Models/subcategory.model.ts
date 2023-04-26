@@ -25,6 +25,10 @@ const subCategorySchema: mongoose.Schema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
+subCategorySchema.post("init", (document) => {
+	document.image = `${process.env.BASE_URL}subCategory/${document.image}`;
+});
+
 const subCategoryModel: mongoose.Model<any> = mongoose.model(
 	"SubCategory",
 	subCategorySchema

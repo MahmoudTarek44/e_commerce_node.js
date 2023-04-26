@@ -1,6 +1,6 @@
 import checkAuthentication from "../../Middlewares/authentication.middleware";
 import validation from "../../Middlewares/validation.middleware";
-import fileUpload from "../../Utilities/file_uploader";
+import { uploadSingle } from "../../Utilities/file_uploader";
 import * as User from "./user.controller";
 import express from "express";
 import {
@@ -15,7 +15,7 @@ userRouter
 	.route("/")
 	.get(checkAuthentication, User.getAllUsers)
 	.post(
-		fileUpload("profile_picture", "Users"),
+		uploadSingle("profile_picture", "Users"),
 		validation(signUpSchema, "body"),
 		User.registerUser
 	);
@@ -26,12 +26,13 @@ userRouter
 	.patch(checkAuthentication, User.deactivateUser)
 	.put(
 		checkAuthentication,
-		fileUpload("profile_picture", "Users"),
+		uploadSingle("profile_picture", "Users"),
 		validation(updateInfoSchema, "body"),
 		User.updateUser
 	);
 userRouter.post("/login", validation(signInSchema, "body"), User.loginUser);
 userRouter.get("/profile", checkAuthentication, User.getCurrentUser);
+userRouter.patch("/changePassword/:id", User.changeUserPassword);
 userRouter.get("/verify", User.verifyUser);
 
 export default userRouter;

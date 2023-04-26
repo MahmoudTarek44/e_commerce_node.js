@@ -21,6 +21,10 @@ const categorySchema: mongoose.Schema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
+categorySchema.post("init", (document) => {
+	document.image = `${process.env.BASE_URL}category/${document.image}`;
+});
+
 const categoryModel: mongoose.Model<any> = mongoose.model(
 	"Category",
 	categorySchema

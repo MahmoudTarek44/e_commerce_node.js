@@ -29,7 +29,7 @@ const getAllBrands = asyncErrorHandler(
 const getOneBrand = asyncErrorHandler(
 	async (request: Request, response: Response, next: NextFunction) => {
 		const { id } = request.params;
-		let result = await brandModel.findById(id);
+		let result =  brandModel.findById(id);
 		response.status(200).send({ message: "success", data: result });
 	}
 );

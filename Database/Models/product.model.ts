@@ -74,6 +74,11 @@ const productSchema: mongoose.Schema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
+productSchema.post("init", (document) => {
+	document.cover_img = `${process.env.BASE_URL}product/${document.cover_img}`;
+	document.prod_imgs = document.prod_imgs.map((img :string)=> `${process.env.BASE_URL}product/${img}`)
+});
+
 const productModel: mongoose.Model<any> = mongoose.model(
 	"Product",
 	productSchema
